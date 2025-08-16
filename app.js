@@ -5,8 +5,10 @@ let btns=["red","green","yellow","purple"]
 
 let started=false;
 let level=0;
+let highestscore=0;
 
 let h2=document.querySelector("h2")
+let scoredisplay = document.querySelector("#high-score");
 
 document.addEventListener("keypress",function(){
     console.log("game started")
@@ -56,19 +58,19 @@ function reset() {
 
 function checkans(idx) {
     if (userseq[idx] === gameseq[idx]) {
+        // correct ans case
         if (userseq.length === gameseq.length) {
             setTimeout(levelup,500)
         }
     } else {
-        h2.innerHTML = `Game Over! Your score was <b>${level}</b>.<br>Press any key to start.</br>`;
-        // Add a red flash effect to the body
-        let body = document.querySelector("body");
-        body.classList.add("game-over");
+        //wrong ans case
+        if (level > highestscore) {
+            highestscore = level;
+            scoredisplay.innerText = `🏆 Highest Score: ${highestscore}`;
+        }
 
-        setTimeout(function () {
-            body.classList.remove("game-over");
-        }, 300);
-        reset(); // Call a function to reset the game
+        h2.innerHTML = `Game Over! Your score was <b>${level}</b>.<br>Press any key to start.</br>`;
+        reset();
     }
 }
 
